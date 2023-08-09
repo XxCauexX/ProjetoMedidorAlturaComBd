@@ -27,10 +27,10 @@ float alturaPessoa;
 
 char INSERT_SQL[100];
 char valorStr[10]; // Array de caracteres temporário para armazenar o valor convertido
-
+  
 #ifndef STASSID
-#define STASSID "Aaaaaaaaaa"
-#define STAPSK "123451234"
+#define STASSID "TP-Link_3AA5"
+#define STAPSK "Sala@Maker@USP"
 #endif
 
 const char* ssid = STASSID;
@@ -40,19 +40,19 @@ String ponto = ".";
 
 void setup() {
   Serial.begin(115200);
-  //lcd.begin(16, 2);
-  lcd.setCursor(0, 0);
+  lcd.begin(16, 2);
+  lcd.setCursor(0, 1);
   /* Definindo explicitamente o ESP8266 como um cliente WiFi, caso contrário, por padrão,
      tentaria agir tanto como cliente quanto como ponto de acesso e poderia causar
      problemas de rede com seus outros dispositivos WiFi em sua rede WiFi. */
 
   // Começamos conectando-nos a uma rede WiFi
-  Serial.println();
+  Serial.println("");
+  lcd.clear();
+  Serial.print("");
   lcd.println();
-  Serial.println();
-  lcd.println();
-  Serial.print("Connecting to ");
-  lcd.print("Connecting to   ");
+  Serial.print("Connecting to   ");
+  lcd.print("Conectando ao   ");
   Serial.println(ssid);
   lcd.setCursor(0, 2);
   lcd.print(ssid);
@@ -68,23 +68,40 @@ void setup() {
   }
 
   Serial.println("");
-  lcd.print("");
+  lcd.clear();
   Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  lcd.print("WiFi conectado  ");
+  delay(2000);
+  Serial.println("Endereco IP:    ");
+  delay(2000);
+  lcd.clear();
+  lcd.print("Endereco IP:    ");
+  delay(1000);
   Serial.println(WiFi.localIP());
-
+  lcd.setCursor(0,1);
+  lcd.print(WiFi.localIP());
+  delay(2000);
   Serial.print("Connecting to SQL...  ");
-  if (conn.connect(server_addr, 3306, user, senha))
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Conectando aoSQL...");
+  if (conn.connect(server_addr, 3306, user, senha)){
     Serial.println("OK.");
-  else
-    Serial.println("FAILED.");
-  
+    lcd.setCursor(0,1);
+    lcd.print("OK.             ");
+    delay(5000);
+  }else{
+    Serial.println("FALHA.          ");
+    lcd.setCursor(0,1);
+    lcd.print("FALHA.          ");
+    delay(5000);
+  }
   // create MySQL cursor object
   cursor = new MySQL_Cursor(&conn);
 
   pinMode(botao, INPUT);
   //lcd.begin(16, 2);
-  lcd.setCursor(0, 0);
+  lcd.setCursor(0, 1);
   pinMode(SonarTrigger, OUTPUT);
   pinMode(SonarEcho, INPUT);
   pinMode(5, OUTPUT);
@@ -92,15 +109,18 @@ void setup() {
 
 void display()
 {
-  lcd.setCursor(1, 0);
+  lcd.clear();
+  lcd.setCursor(0, 0);
   lcd.print("Voce mede: ");
   lcd.print(altura);
+  //delay(2000);
+  //lcd.clear();
   Serial.print("Voce mede:");
   Serial.print(altura);
   if (altura < 1.00)
   {
+    //lcd.clear();
     lcd.setCursor(0, 1);
-    lcd.print("");
     lcd.print("centimetros");
     Serial.println(" cm");
   }
