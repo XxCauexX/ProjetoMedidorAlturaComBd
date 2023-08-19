@@ -1,0 +1,4 @@
+#Sat Aug 19 00:53:01 BRT 2023
+base.0=/home/guilalf/workspace/ETEC/projetoAlturaBancodeDadoscomCaue/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
